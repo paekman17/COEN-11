@@ -1,0 +1,152 @@
+/*
+Ethan Paek
+Dr. Yi Fang
+This is the COEN 11 Final!
+ */
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+void add();
+void delete();
+void print();
+void find(struct node* p);
+void save();
+
+struct node{//set up the data each node contains
+  char task[200];
+  int number;
+  struct node* next;
+  struct node* prev;
+};
+
+//setup head and tail pointers
+struct node* head = NULL;
+struct node* tail = NULL;
+struct node* p = NULL;
+
+int main(){
+  int input, run = 1;
+  puts("What would you like to do?\n1:add a new task to end of list\n2:delete a task\n3:show all tasks\n4:find the max task\n5:save\
+ all tasks to text file\n6:exit");
+  scanf("%d", &input);
+  while (run == 1){
+    switch(input){
+    case 1:
+      add();
+      break;
+    case 2:
+      delete();
+      break;
+    case 3:
+      print();
+      break;
+    case 4:
+      find(NULL);
+      break;
+    case 5:
+      save();
+      break;
+    case 6:
+      run = 0;
+      break;
+    default:
+      puts("Command not valid. Try again por favor");
+      break;
+    }
+    puts("\nWhat would you like to do?\n1:add a new task to end of list\n2:delete a task\n3:show all tasks\n4:find the max task\n5:save all tasks to text file\n6:exit");
+  }
+  return 0;
+}
+
+void add(){//add a node to the end of the list
+  struct node* current = NULL;
+  current = (struct node*)malloc(sizeof(struct node));
+  puts("What task would you like to give this node?");
+  char charInput[200];
+  scanf("%s", charInput);
+  puts("What number would you like to give this node?");
+  int intInput;
+  scanf("%d", &intInput);
+  strcpy(current->task, charInput);
+  current->number = intInput;
+  current->next = NULL;
+  current->prev = NULL;
+  if(head == NULL){
+    head = current;
+    tail = current;
+  }
+  else{
+    tail->next = current;
+    current->prev = tail;
+    tail = current;
+    tail->next = NULL;
+  }
+  puts("Node successfully added! You're a rockstar! :D");
+  return;
+}
+
+void delete(){//delete a task when give a number
+  struct node* current = head;
+  if(head == NULL){
+    puts("Nothing to delete fam");
+  }
+  else{
+    puts("What number are you looking to delete?");
+    int numInput;
+    scanf("%d", &numInput);
+    while(current != NULL){
+      if(current->number == numInput){
+	break;
+      }
+      current = current->next;
+    }
+    if(head == tail){
+      head = tail = NULL;
+    }
+    else if(current == head){
+      head = head->next;
+    }
+    else if(current == tail){
+      current->prev = tail;
+      current->prev->next = NULL;
+    }
+    else{
+      current->prev->next = current->next;
+      current->next->prev = current->prev;
+    }
+    puts("Node successfully delete! You're so cool");
+    free(current);
+  }
+  return;
+}
+
+void print(){//show all tasks
+  struct node* current = head;
+  while(current != NULL){
+    printf("task: %s, number: %d\n", current->task, current->number);
+    current = current->next;
+  }
+}
+
+void find(struct node* p){//find the max priority number through recursion
+  if(p->next == NULL){
+    //return biggest;
+  }
+  else{
+    return find(p->next);
+  }
+}
+
+void save(){//save the linkedlist to a text file
+  FILE* fp = fopen("tasks.txt", "w");
+  if(fp == NULL){
+    puts("File is not able to open. Sorry my dude");
+    return;
+  }
+  struct node* current = head;
+  while(current != NULL){
+    fprintf(fp, "%s %d\n", current->task, current->number);
+    current = current->next;
+  }
+}
