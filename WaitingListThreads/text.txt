@@ -1,0 +1,9 @@
+Name	Group Size
+------------------
+Kyle	1
+Pat	2
+Jack	3
+Liz	4
+Jake	5
+John	6
+Polly	7

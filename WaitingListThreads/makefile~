@@ -1,0 +1,3 @@
+proj: main.c files.c lists.c
+	gcc -o proj main.c files.c lists.c
+	./proj text.txt binary.txt

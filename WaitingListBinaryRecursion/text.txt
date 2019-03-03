@@ -1,0 +1,9 @@
+Name	Group Size
+------------------
+Max	2
+Joe	1
+Pat	2
+Kyle	1
+Liz	3
+John	6
+Jake	5
